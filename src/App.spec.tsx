@@ -40,7 +40,7 @@ describe('App', () => {
   it('search for a valid CEP and get data response back', async () => {
     render(<App />)
     const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: validCep } })
+    fireEvent.change(input, { target: { value: '14404254' } })
 
     await waitFor(() => screen.getByText(/franca/i))
   });
@@ -56,7 +56,7 @@ describe('App', () => {
     )
 
     const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: invalidCep } })
+    fireEvent.change(input, { target: { value: 99999999 } })
     await waitFor(() => screen.getByTestId('error-msg'))
     expect(screen.getByText(/cep não encontrado/i)).toBeInTheDocument()
   });
@@ -64,7 +64,7 @@ describe('App', () => {
   it('search for a valid CEP and show in last searches', async () => {
     render(<App />)
     const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: validCep } })
+    fireEvent.change(input, { target: { value: '14404254' } })
 
     await waitFor(() => screen.getByTestId('last-search-btn'))
     expect(screen.getByRole('button', { name: /14404-254/i })).toBeInTheDocument()
@@ -74,10 +74,18 @@ describe('App', () => {
     render(<App />)
     const input = screen.getByRole('textbox')
 
-    fireEvent.change(input, { target: { value: validCep } })
+    fireEvent.change(input, { target: { value: '14404254' } })
     await waitFor(() => screen.getByRole('button', { name: /14404-254/i }))
 
-    fireEvent.change(input, { target: { value: '14404246' } })
-    await waitFor(() => screen.getByRole('button', { name: /14404-246/i }))
+    fireEvent.change(input, { target: { value: '14404255' } })
+    await waitFor(() => screen.getByRole('button', { name: /14404-255/i }))
+
+    fireEvent.change(input, { target: { value: '14404256' } })
+    await waitFor(() => screen.getByRole('button', { name: /14404-256/i }))
+
+    fireEvent.change(input, { target: { value: '14404257' } })
+    await waitFor(() => screen.getByRole('button', { name: /14404-257/i }))
+
+    expect(screen.queryByRole('button', { name: /14404-254/i })).not.toBeInTheDocument()
   })
 })

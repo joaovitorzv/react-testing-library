@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
+.container {
+  width: 600px;
+  margin: 5% auto;
+
+  padding-top: 2rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container header {
+  margin-bottom: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container header h2 {
+  font-size: 34px;
+  color: var(--text-primary);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.error-message{
+  font-size: 14px;
+  color: red;
+}
+
+.form-container input {
+  border: none;
+  padding: .5rem;
+  font-size: 18px;
+  border: 2px solid #3e3e3e;
+}
+
+.last-searches {
+  padding: .5rem 0 1rem 0;
+}
+
+.last-search {
+  background-color: #ebebeb;
+  padding: .3rem;
+  border-radius: 4px;
+}
+
+.last-search:not(:first-child) {
+  margin-left: .5rem;
+}
+
+.last-search:hover {
+  color: var(--primary);
+}
+
+.last-searches p {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background-color: var(--gray);
+}
+
+.results-container {
+  margin-top: 1rem;
+}
+
+.row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 18px;
+  padding: .4rem;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.row label {
+  margin-right: .5rem;
+  color: var(--primary);
+  font-weight: bold;
+  min-width: 70px;
 }

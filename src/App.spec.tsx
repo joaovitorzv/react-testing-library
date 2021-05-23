@@ -5,9 +5,6 @@ import { setupServer } from 'msw/node';
 
 import App from './App';
 
-const validCep = 14404254
-const invalidCep = 14404256
-
 const server = setupServer(
   rest.get('https://viacep.com.br/ws/:cep/json', (req, res, ctx) => {
     const { cep } = req.params

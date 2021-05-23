@@ -1,9 +1,8 @@
-import * as React from 'react';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import App from './App';
+import SearchAddress from './index';
 
 const server = setupServer(
   rest.get('https://viacep.com.br/ws/:cep/json', (req, res, ctx) => {
@@ -15,8 +14,8 @@ const server = setupServer(
 
     return res(ctx.json({
       cep: cepParsed,
-      localidade: 'Rua Joaquim de Paula Marques',
-      bairro: 'Jardim Aeroporto III',
+      localidade: 'Rua exemplo',
+      bairro: 'Bairro exemplo',
       uf: 'Franca',
       logradouro: 'SP'
     }))
@@ -27,15 +26,14 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-
 describe('App', () => {
   it('shows the app header', () => {
-    render(<App />)
+    render(<SearchAddress />)
     expect(screen.getByRole('heading', { name: /procure por algum cep/i })).toBeInTheDocument()
   });
 
   it('search for a valid CEP and get data response back', async () => {
-    render(<App />)
+    render(<SearchAddress />)
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '14404254' } })
 
@@ -43,7 +41,7 @@ describe('App', () => {
   });
 
   it('search for a invalid CEP and get an error', async () => {
-    render(<App />)
+    render(<SearchAddress />)
     server.use(
       rest.get(`https://viacep.com.br/ws/:cep/json`, (req, res, ctx) => {
         return res(
@@ -59,7 +57,7 @@ describe('App', () => {
   });
 
   it('search for a valid CEP and show in last searches', async () => {
-    render(<App />)
+    render(<SearchAddress />)
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '14404254' } })
 
@@ -68,7 +66,7 @@ describe('App', () => {
   })
 
   it('search for 4 valid CEPs and only show the last 3 searched', async () => {
-    render(<App />)
+    render(<SearchAddress />)
     const input = screen.getByRole('textbox')
 
     fireEvent.change(input, { target: { value: '14404254' } })

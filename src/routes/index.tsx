@@ -5,13 +5,15 @@ import {
   Route
 } from 'react-router-dom'
 
-import SearchAddress from './SearchAddress'
+import NotFound from './NotFound'
+import Search from './Search'
 
 const Routes: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path='/' component={SearchAddress} />
+        <Route exact path='/' component={Search} />
+        <Route path='*' component={NotFound} />
       </Switch>
     </Router>
   )

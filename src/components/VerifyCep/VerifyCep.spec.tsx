@@ -2,18 +2,18 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import SearchAddress from './index';
+import VerifyCep from './index';
 
 const server = setupServer(
   rest.get('https://viacep.com.br/ws/:cep/json', (req, res, ctx) => {
     const { cep } = req.params
 
-    let cepParsed = cep.split('')
-    cepParsed.splice(5, 0, '-')
-    cepParsed = cepParsed.join('')
+    let responseCepParsed = cep.split('')
+    responseCepParsed.splice(5, 0, '-')
+    responseCepParsed = responseCepParsed.join('')
 
     return res(ctx.json({
-      cep: cepParsed,
+      cep: responseCepParsed,
       localidade: 'Rua exemplo',
       bairro: 'Bairro exemplo',
       uf: 'Franca',
@@ -28,12 +28,12 @@ afterAll(() => server.close())
 
 describe('App', () => {
   it('shows the app header', () => {
-    render(<SearchAddress />)
-    expect(screen.getByRole('heading', { name: /procure por algum cep/i })).toBeInTheDocument()
+    render(<VerifyCep />)
+    expect(screen.getByRole('heading', { name: /verifique seu cep/i })).toBeInTheDocument()
   });
 
   it('search for a valid CEP and get data response back', async () => {
-    render(<SearchAddress />)
+    render(<VerifyCep />)
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '14404254' } })
 
@@ -41,7 +41,7 @@ describe('App', () => {
   });
 
   it('search for a invalid CEP and get an error', async () => {
-    render(<SearchAddress />)
+    render(<VerifyCep />)
     server.use(
       rest.get(`https://viacep.com.br/ws/:cep/json`, (req, res, ctx) => {
         return res(
@@ -57,7 +57,7 @@ describe('App', () => {
   });
 
   it('search for a valid CEP and show in last searches', async () => {
-    render(<SearchAddress />)
+    render(<VerifyCep />)
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '14404254' } })
 
@@ -66,7 +66,7 @@ describe('App', () => {
   })
 
   it('search for 4 valid CEPs and only show the last 3 searched', async () => {
-    render(<SearchAddress />)
+    render(<VerifyCep />)
     const input = screen.getByRole('textbox')
 
     fireEvent.change(input, { target: { value: '14404254' } })

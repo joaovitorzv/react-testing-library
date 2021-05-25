@@ -1,0 +1,31 @@
+.tabs-container {
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: .4rem 0;
+  font-size: 16px;
+
+  opacity: .6;
+  border-bottom: 3px solid transparent;
+  transition-duration: 200ms;
+}
+
+.tab-btn:hover {
+  opacity: 1;
+  border-bottom: 3px solid var(--primary);
+}
+
+.tab-btn:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.active {
+  border-bottom: 3px solid var(--primary);
+  cursor: default;
+  opacity: 1;
+}
+
+.panel-hidden {
+  display: none;
+}

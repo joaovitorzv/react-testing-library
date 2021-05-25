@@ -1,0 +1,18 @@
+.container {
+  width: 600px;
+  margin: 5% auto;
+}
+
+.container header {
+  margin: 1rem 0;
+}
+
+.container header h2 {
+  font-size: 28px;
+  color: var(--text-primary);
+}
+
+.error-message{
+  font-size: 14px;
+  color: red;
+}

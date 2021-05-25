@@ -36,3 +36,43 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input {
+  border: none;
+  padding: .5rem;
+  font-size: 18px;
+  border: 2px solid var(--text-primary);
+}
+
+select {
+  border: 2px solid ;
+  padding: .5rem;
+  font-size: 18px;
+  background-color: transparent;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+}
+
+.select::after {
+  content: "";
+  width: 0.8em;
+  height: 0.5em;
+  background-color: #000;
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,9 +1,14 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom'
+
+import './styles.css'
+
 const NotFound: React.FC = () => {
   return (
-    <section>
-      <h2>Pagina não encontrada!</h2>
+    <section className='not-found'>
+      <h2>404, Pagina não encontrada!</h2>
+      <Link to='/' className='link'>Voltar para a pagina inicial</Link>
     </section>
   );
 }

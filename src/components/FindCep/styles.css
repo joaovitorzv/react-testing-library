@@ -1,0 +1,8 @@
+.street-input {
+  width: 400px;
+}
+
+.selections {
+  display: flex;
+  margin-bottom: 1rem;
+}

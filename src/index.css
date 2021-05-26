@@ -44,7 +44,7 @@ input {
 }
 
 select {
-  border: 2px solid ;
+  border: none;
   padding: .5rem;
   font-size: 18px;
   background-color: transparent;
@@ -58,14 +58,6 @@ select::-ms-expand {
 .select {
   display: flex;
   align-items: center;
-}
-
-.select::after {
-  content: "";
-  width: 0.8em;
-  height: 0.5em;
-  background-color: #000;
-  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
 }
 
 .link {

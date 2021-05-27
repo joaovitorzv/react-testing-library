@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import InputMask from 'react-input-mask'
 
 import searchStorage from '../../services'
 import { clearCepValue } from '../../utils'
+import useIsMounted from '../../hooks/useIsMounted'
 
 import './styles.css';
 
@@ -28,13 +29,7 @@ const VerifyCep: React.FC = () => {
   const [cepValue, setCepValue] = useState('')
   const [cepResponse, setCepResponse] = useState<CEP>()
 
-  const mountedRef = useRef(false)
-  useEffect(() => {
-    mountedRef.current = true
-    return () => {
-      mountedRef.current = false
-    }
-  }, [])
+  const isMounted = useIsMounted()
 
   useEffect(() => {
     setCepValue((prevState) => clearCepValue(prevState))
@@ -45,7 +40,7 @@ const VerifyCep: React.FC = () => {
         .then((response: ResponseCEP) => {
           if (!response.cep) throw new Error()
 
-          if (mountedRef.current) {
+          if (isMounted) {
             setCepResponse({
               cep: response.cep,
               city: response.localidade,
@@ -58,7 +53,7 @@ const VerifyCep: React.FC = () => {
         })
         .catch(err => setError(true))
     }
-  }, [cepValue])
+  }, [cepValue, isMounted])
 
   const [lastSearches, setLastSearches] = useState<string[]>(searchStorage.getSearches())
 

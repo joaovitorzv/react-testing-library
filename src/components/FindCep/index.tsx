@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import InputMask from 'react-input-mask'
 import Skeleton from 'react-loading-skeleton';
 
 import SelectWrapper from '../SelectWrapper'
+import useIsMounted from '../../hooks/useIsMounted'
 
 import './styles.css'
 
@@ -32,30 +32,33 @@ const FindCep: React.FC = () => {
 
   const [cepResponse, setCepResponse] = useState<ResponseCEP[]>()
 
+  const isMounted = useIsMounted()
+
   useEffect(() => {
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
       .then(data => data.json())
-      .then(response => setUfs(response))
-  }, [])
+      .then(response => {
+        if (isMounted.current) setUfs(response)
+      })
+  }, [isMounted])
 
   useEffect(() => {
-    console.log(selectedUf)
-
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
       .then(data => data.json())
-      .then(response => setCities(response))
-  }, [selectedUf])
+      .then(response => {
+        if (isMounted.current) setCities(response)
+      })
+  }, [selectedUf, isMounted])
 
   useEffect(() => {
-    console.log(streetName)
     if (streetName.length < 3) return
 
     fetch(`https://viacep.com.br/ws/${selectedUf}/${selectedCity}/${streetName}/json`)
       .then(data => data.json())
-      .then(response => setCepResponse(response))
-
-    console.log(cepResponse)
-  }, [selectedCity, streetName])
+      .then(response => {
+        if (isMounted.current) setCepResponse(response)
+      })
+  }, [selectedCity, streetName, isMounted])
 
   return (
     <>
@@ -65,7 +68,10 @@ const FindCep: React.FC = () => {
       <form className='form-container'>
         <div className='selections'>
           <SelectWrapper width={100}>
-            <select onChange={(e) => setSelectedUf(e.target.value)}>
+            <select
+              onChange={(e) => setSelectedUf(e.target.value)}
+              data-testid='state-options'
+            >
               <option value='default'>Estado</option>
               {ufs.map(uf => (
                 <option
@@ -81,6 +87,7 @@ const FindCep: React.FC = () => {
             <select
               disabled={!selectedUf}
               onChange={(e) => setSelectedCity(e.target.value)}
+              data-testid='city-options'
             >
               <option value='default'>Cidade</option>
               {cities?.map(city => (
@@ -102,11 +109,11 @@ const FindCep: React.FC = () => {
       </form>
       <div className='results-container' data-testid='cep-results'>
         {!cepResponse
-          ? (<Skeleton height={30} count={4} />)
+          ? (<Skeleton height={20} count={4} style={{ marginTop: 10 }} />)
           : (
             <>
               {cepResponse.map(cep => (
-                <div className='result-collumn'>
+                <div className='result-collumn' key={cep.cep}>
                   <div className='divider' />
                   <div className='row-small'>
                     <label>CEP</label>

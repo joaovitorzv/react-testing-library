@@ -26,8 +26,8 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-describe('App', () => {
-  it('shows the app header', () => {
+describe('Verify Cep', () => {
+  it('show the component header', () => {
     render(<VerifyCep />)
     expect(screen.getByRole('heading', { name: /verifique seu cep/i })).toBeInTheDocument()
   });

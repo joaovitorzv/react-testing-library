@@ -10,14 +10,15 @@ const Search: React.FC = () => {
   return (
     <div className='container'>
       <Tabs>
-        <Tab name='Verificar CEP' index={0} />
-        <Tab name='Encontrar CEP' index={1} />
+        <Tab name='Encontrar CEP' index={0} />
+        <Tab name='Verificar CEP' index={1} />
 
         <TabPanel index={0}>
-          <VerifyCep />
+          <FindCep />
         </TabPanel>
         <TabPanel index={1}>
-          <FindCep />
+
+          <VerifyCep />
         </TabPanel>
       </Tabs>
     </div>

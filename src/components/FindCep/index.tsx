@@ -106,25 +106,25 @@ const FindCep: React.FC = () => {
           : (
             <>
               {cepResponse.map(cep => (
-                <>
+                <div className='result-collumn'>
                   <div className='divider' />
-                  <div className='row'>
+                  <div className='row-small'>
                     <label>CEP</label>
                     <p>{cep.cep}</p>
                   </div>
-                  <div className='row'>
+                  <div className='row-small'>
                     <label>Cidade</label>
                     <p>{cep.localidade}</p>
                   </div>
-                  <div className='row'>
+                  <div className='row-small'>
                     <label>Rua</label>
                     <p>{cep.logradouro}</p>
                   </div>
-                  <div className='row'>
+                  <div className='row-small'>
                     <label>Bairro</label>
                     <p>{cep.bairro}</p>
                   </div>
-                </>
+                </div>
               ))}
             </>
           )}

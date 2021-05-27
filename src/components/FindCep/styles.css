@@ -6,3 +6,18 @@
   display: flex;
   margin-bottom: 1rem;
 }
+
+.result-collumn {
+  padding: .5rem 0;
+}
+
+.row-small {
+  display: flex;
+  padding: .5rem;
+  font-size: 14px;
+}
+
+.row-small > label {
+  color: var(--primary);
+  margin-right: .5rem;
+}

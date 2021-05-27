@@ -2,7 +2,7 @@
 
 <p align="center">
   <h1 align="center">
-    A React project with tests coverage. se <a href='https://react-testing-library.netlify.app/'>live here</a>
+    A React project with tests coverage. see <a href='https://react-testing-library.netlify.app/'>live here</a>
   </>
 </p>
 

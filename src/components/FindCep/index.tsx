@@ -60,7 +60,7 @@ const FindCep: React.FC = () => {
       .then(response => {
         if (isMounted.current) setCepResponse(response)
       })
-  }, [selectedCity, streetName, isMounted])
+  }, [selectedUf, selectedCity, streetName, isMounted])
 
   return (
     <>

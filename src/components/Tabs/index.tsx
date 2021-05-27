@@ -24,7 +24,6 @@ export const Tab: React.FC<TabProps & Partial<CloneElementProps>> = (props) => {
 }
 
 export const TabPanel: React.FC<TabProps & Partial<CloneElementProps>> = (props) => {
-
   return (
     <div className={cn('tab-panel', { 'panel-hidden': props.activeIndex !== props.index })}>
       {props.children}

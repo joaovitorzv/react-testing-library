@@ -37,8 +37,10 @@ const FindCep: React.FC = () => {
   useEffect(() => {
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
       .then(data => data.json())
-      .then(response => {
-        if (isMounted.current) setUfs(response)
+      .then((response: Uf[]) => {
+        if (isMounted.current) {
+          setUfs(response.sort((a, b) => a.sigla.localeCompare(b.sigla)))
+        }
       })
   }, [isMounted])
 

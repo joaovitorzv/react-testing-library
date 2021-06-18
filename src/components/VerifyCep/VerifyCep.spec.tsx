@@ -1,4 +1,5 @@
-import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
@@ -28,20 +29,20 @@ afterAll(() => server.close())
 
 describe('Verify Cep', () => {
   it('show the component header', () => {
-    render(<VerifyCep />)
-    expect(screen.getByRole('heading', { name: /verifique seu cep/i })).toBeInTheDocument()
+    const { getByRole } = render(<VerifyCep />)
+    expect(getByRole('heading', { name: /verifique seu cep/i })).toBeInTheDocument()
   });
 
   it('search for a valid CEP and get data response back', async () => {
-    render(<VerifyCep />)
-    const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: '14404254' } })
+    const { getByPlaceholderText, getByText } = render(<VerifyCep />)
 
-    await waitFor(() => screen.getByText(/franca/i))
+    fireEvent.change(getByPlaceholderText('00000-000'), { target: { value: '14404254' } })
+
+    await waitFor(() => getByText(/franca/i))
   });
 
   it('search for a invalid CEP and get an error', async () => {
-    render(<VerifyCep />)
+    const { getByRole, getByText, getByTestId } = render(<VerifyCep />)
     server.use(
       rest.get(`https://viacep.com.br/ws/:cep/json`, (req, res, ctx) => {
         return res(
@@ -50,37 +51,32 @@ describe('Verify Cep', () => {
       })
     )
 
-    const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: 99999999 } })
-    await waitFor(() => screen.getByTestId('error-msg'))
-    expect(screen.getByText(/cep não encontrado/i)).toBeInTheDocument()
+    const input = getByRole('textbox')
+    fireEvent.change(input, { target: { value: '99999999' } })
+    await waitFor(() => getByTestId('error-msg'))
+    expect(getByText(/cep não encontrado/i)).toBeInTheDocument()
   });
 
   it('search for a valid CEP and show in last searches', async () => {
-    render(<VerifyCep />)
-    const input = screen.getByRole('textbox')
+    const { getByRole, getByTestId } = render(<VerifyCep />)
+    const input = getByRole('textbox')
     fireEvent.change(input, { target: { value: '14404254' } })
 
-    await waitFor(() => screen.getByTestId('last-search-btn'))
-    expect(screen.getByRole('button', { name: /14404-254/i })).toBeInTheDocument()
+    await waitFor(() => getByTestId('last-search-btn'))
+    expect(getByRole('button', { name: /14404-254/i })).toBeInTheDocument()
   })
 
   it('search for 4 valid CEPs and only show the last 3 searched', async () => {
-    render(<VerifyCep />)
-    const input = screen.getByRole('textbox')
+    const { getByRole, queryByRole } = render(<VerifyCep />)
+    const input = getByRole('textbox')
 
-    fireEvent.change(input, { target: { value: '14404254' } })
-    await waitFor(() => screen.getByRole('button', { name: /14404-254/i }))
+    for (let i = 0; i <= 4; i++) {
+      let cepValue = `14404-25${i}`
 
-    fireEvent.change(input, { target: { value: '14404255' } })
-    await waitFor(() => screen.getByRole('button', { name: /14404-255/i }))
+      fireEvent.change(input, { target: { value: cepValue } })
+      await waitFor(() => getByRole('button', { name: new RegExp(cepValue, 'i') }))
+    }
 
-    fireEvent.change(input, { target: { value: '14404256' } })
-    await waitFor(() => screen.getByRole('button', { name: /14404-256/i }))
-
-    fireEvent.change(input, { target: { value: '14404257' } })
-    await waitFor(() => screen.getByRole('button', { name: /14404-257/i }))
-
-    expect(screen.queryByRole('button', { name: /14404-254/i })).not.toBeInTheDocument()
+    expect(queryByRole('button', { name: /14404-250/i })).not.toBeInTheDocument()
   })
 })

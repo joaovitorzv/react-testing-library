@@ -45,7 +45,7 @@ describe('Find Cep', () => {
   })
 
   it('loads uf select options', async () => {
-    const { getByText, getByRole } = render(<FindCep />)
+    const { getByRole } = render(<FindCep />)
 
     await waitFor(() => getByRole('option', { name: /sp/i }))
     await waitFor(() => getByRole('option', { name: /mg/i }))

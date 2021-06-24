@@ -24,7 +24,7 @@ interface CEP {
   state: string;
 }
 
-const VerifyCep: React.FC = () => {
+const VerifyCep = (): JSX.Element => {
   const [error, setError] = useState(false)
   const [cepValue, setCepValue] = useState('')
   const [cepResponse, setCepResponse] = useState<CEP>()

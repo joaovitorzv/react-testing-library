@@ -4,9 +4,10 @@ import './styles.css'
 
 type Props = {
   width: number;
+  children: React.ReactNode;
 }
 
-const SelectWrapper: React.FC<Props> = (props) => {
+const SelectWrapper = (props: Props): JSX.Element => {
   return (
     <div className='select' style={{ width: props.width }}>
       {props.children}

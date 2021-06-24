@@ -3,17 +3,20 @@ import cn from 'classnames'
 
 import './styles.css'
 
-type TabProps = {
+type withChildren<T = {}> =
+  T & { children?: React.ReactNode };
+
+type TabProps = withChildren<{
   name?: string;
   index: number;
-}
+}>
 
 type CloneElementProps = {
   activeIndex: number;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const Tab: React.FC<TabProps & Partial<CloneElementProps>> = (props) => {
+export const Tab = (props: TabProps & Partial<CloneElementProps>) => {
   return (
     <button
       onClick={() => props.setActiveIndex!(props.index)}
@@ -23,7 +26,7 @@ export const Tab: React.FC<TabProps & Partial<CloneElementProps>> = (props) => {
   )
 }
 
-export const TabPanel: React.FC<TabProps & Partial<CloneElementProps>> = (props) => {
+export const TabPanel = (props: TabProps & Partial<CloneElementProps>) => {
   return (
     <div className={cn('tab-panel', { 'panel-hidden': props.activeIndex !== props.index })}>
       {props.children}
@@ -31,12 +34,12 @@ export const TabPanel: React.FC<TabProps & Partial<CloneElementProps>> = (props)
   )
 }
 
-const Tabs: React.FC = ({ children }) => {
+const Tabs = (props: withChildren): JSX.Element => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
     <div className='tabs-container'>
-      {React.Children.map(children, child => {
+      {React.Children.map(props.children, child => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { activeIndex, setActiveIndex: setActiveIndex })
         }

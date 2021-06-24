@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import SelectWrapper from '../SelectWrapper'
@@ -22,7 +22,7 @@ type ResponseCEP = {
   localidade: string;
 }
 
-const FindCep: React.FC = () => {
+const FindCep = (): JSX.Element => {
   const [ufs, setUfs] = useState<Uf[]>([])
   const [cities, setCities] = useState<City[]>()
 
